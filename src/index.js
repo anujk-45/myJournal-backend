@@ -11,7 +11,7 @@ const port = process.env.PORT || 5000
 
 app.use(express.json());
 app.use(cors({
-  origin : 'https://akj-myjournal.netlify.app/'
+  origin : 'https://akj-myjournal.netlify.app'
 }));
 app.use('/blogs',blogRouter);
 app.use('/admin',adminRouter);
