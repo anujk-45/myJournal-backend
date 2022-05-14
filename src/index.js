@@ -13,7 +13,7 @@ app.use(express.json());
 
 app.use(
   cors({
-      origin : ["https://akj-myjournal.netlify.app"],
+      origin : ["https://akj-myjournal.netlify.app","http://localhost:3000"],
       credentials: true,
   })
 );

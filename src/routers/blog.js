@@ -8,26 +8,31 @@ const auth = require('../middleware/auth')
 router.get('/', cors(), async(req, res) => {
   try {
     console.log("Inside /blogs/");
-    const flag = req.header('flag');
-    if(flag === '0'){
-      Blog.find({}).sort({views: 'desc'}).exec((err, blogs) => { 
-        if(err) throw new Error("Error in finding blogs");
+    Blog.find({}).sort({views: 'desc'}).exec((err, blogs) => { 
+      if(err) throw new Error("Error in finding blogs");
 
-        const slicedArray  = Array.from(blogs).slice(0,10);
-        // console.log(slicedArray);
-        res.status(200).send(slicedArray);
-      });
-    }else if(flag === '1'){
-      Blog.find({}).sort({createdAt: 'desc'}).exec((err, blogs) => { 
-        if(err) throw new Error("Error in finding blogs");
-
-        // console.log(blogs);
-        res.status(200).send(blogs);
-      });
-    }
+      const slicedArray  = Array.from(blogs).slice(0,10);
+      console.log(slicedArray);
+      res.status(200).send(slicedArray);
+    });
+    
   } catch (e) {
     // console.log(e);
     res.status(400).send();
+  }
+})
+
+router.get('/list', cors(), async(req, res) => {
+  try {
+    Blog.find({}).sort({createdAt: 'desc'}).exec((err, blogs) => { 
+      if(err) throw new Error("Error in finding blogs");
+
+      console.log(blogs);
+      res.status(200).send(blogs);
+    });
+  } catch (e) {
+    console.log(e);
+    res.status(400).send()
   }
 })
 
