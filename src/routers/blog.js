@@ -86,11 +86,11 @@ router.post('/edit/:id', cors(), auth, async(req, res) => {
   try {
     console.log('Insider Edit Blog')
     const blog = await Blog.findOneAndUpdate({_id: req.params.id}, {
-                                          title: req.body.title,
-                                          description: req.body.description,
-                                          markdown: req.body.markdown
-                                        }, {new: true}
-                                      )
+        title: req.body.title,
+        description: req.body.description,
+        markdown: req.body.markdown
+      }, {new: true}
+    )
 
     if(!blog){
       throw new Error('Unable to update blog');
@@ -99,6 +99,24 @@ router.post('/edit/:id', cors(), auth, async(req, res) => {
   } catch (e) {
     console.log(e);
     res.status(500).send()
+  }
+})
+
+router.post('/updateBlog', cors(), async(req, res) => {
+  try {
+    console.log('inside update blog');
+    Blog.findOne({_id: req.body.id}, async(err, blog) => {
+      if(err){
+        throw new Error('Error in finding blog');
+      }
+      blog.comments.push(req.body.newComment);
+      console.log(blog);
+      await blog.save();
+      res.status(200).send('Comment Updated Successfully');
+    })
+  } catch (e) {
+    console.log(e);
+    res.status(400).send();
   }
 })
 
